@@ -29,22 +29,20 @@
     </div>
 
     <div class="recipe-content">
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. At incidunt soluta est temporibus sint
-            quas quo hic adipisci consectetur maxime iusto laudantium officia, repellat ipsa vel, optio
-            dignissimos eos ea.</p>
+        <p>{{recipe.description}}</p>
     </div>
 
     <div class="recipe-meta-container">
         <div class="recipe-meta recipe-preparation">
             <h3 class="recipe-meta-title"><i class="fas fa-stopwatch"></i> Preparo</h3>
             <div class="recipe-meta-text">
-                0 Minutos
+                {{recipe.preparation_time}} {{recipe.preparation_time_unit}}
             </div>
         </div>
         <div class="recipe-meta recipe-servings">
             <h3 class="recipe-meta-title"><i class="fas fa-pizza-slice"></i> Porções</h3>
             <div class="recipe-meta-text">
-                0 Porções
+                {{recipe.servings}} {{recipe.servings_unit}}
             </div>
         </div>
 

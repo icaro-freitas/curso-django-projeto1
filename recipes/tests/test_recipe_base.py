@@ -8,7 +8,7 @@ class RecipeTestBase(TestCase):
         return super().setUp()
 
     def make_category(self, name='Category'):
-        Category.objects.create(name=name)
+        return Category.objects.create(name=name)
 
     def make_author(
         self,
@@ -37,7 +37,7 @@ class RecipeTestBase(TestCase):
         preparation_time_unit='Minutos',
         servings=5,
         servings_unit='Porções',
-        preparation_steps='Recipe steps',
+        preparation_steps='Recipe Preparation steps',
         preparation_steps_is_html=False,
         is_published=True,
     ):

@@ -14,7 +14,7 @@ class RecipeModelTest(RecipeTestBase):
             category=self.make_category(name='Test Default Category'),
             author=self.make_author(username='newuser'),
             title='Recipe Title',
-            descripton='Recipe description',
+            description='Recipe description',
             slug='recipe-slug-for-no-default',
             preparation_time=10,
             preparation_time_unit='Minutos',
@@ -34,7 +34,7 @@ class RecipeModelTest(RecipeTestBase):
 
     @parameterized.expand([
         ('title', 65),
-        ('descripton', 165),
+        ('description', 165),
         ('preparation_time_unit', 65),
         ('servings_unit', 65),
     ])

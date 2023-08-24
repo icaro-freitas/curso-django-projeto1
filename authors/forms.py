@@ -30,13 +30,12 @@ class RegisterForm(forms.ModelForm):
         add_placeholer(self.fields['email'], 'Your e-mail')
         add_placeholer(self.fields['first_name'], 'Ex.: John')
         add_placeholer(self.fields['last_name'], 'Ex.: Doe')
-        add_attr(self.fields['username'], 'css', 'a-css-class')
+        add_placeholer(self.fields['password'], 'Type your password')
+        add_placeholer(self.fields['password2'], 'Repeat your password')
 
     password = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={
-            'placeholder': 'Your password',
-        }),
+        widget=forms.PasswordInput(),
         error_messages={
             'required': 'Password must not be empty'
         },
@@ -48,9 +47,7 @@ class RegisterForm(forms.ModelForm):
 
     password2 = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={
-            'placeholder': 'Repeate your password',
-        }))
+        widget=forms.PasswordInput())
 
     class Meta:
         model = User
@@ -78,16 +75,6 @@ class RegisterForm(forms.ModelForm):
             'username': {
                 'required': 'This field must not be empty',
             }
-        }
-
-        widgets = {
-            'first_name': forms.TextInput(attrs={
-                'placeholder': 'Type your first name here',
-                'class': 'input text-input'
-            }),
-            'password': forms.PasswordInput(attrs={
-                'placeholder': 'Type your password here',
-            })
         }
 
     def clean_password(self):

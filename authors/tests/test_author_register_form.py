@@ -105,3 +105,29 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
                'at least 8 characters.')
         self.assertIn(msg, response.context['form'].errors.get('password'))
         self.assertIn(msg, response.content.decode('utf-8'))
+
+        self.form_data['password'] = '@A123abc123'
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        self.assertNotIn(msg, response.context['form'].errors.get('password'))
+
+    def test_password_and_password_confirmation_are_equal(self):
+        self.form_data['password'] = '@A123abc123'
+        self.form_data['password2'] = '@A123abc1235'
+
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        msg = ('Password and password2 must be equal')
+
+        self.assertIn(msg, response.context['form'].errors.get('password'))
+        self.assertIn(msg, response.content.decode('utf-8'))
+
+        self.form_data['password'] = '@A123abc123'
+        self.form_data['password2'] = '@A123abc123'
+
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        self.assertNotIn(msg, response.content.decode('utf-8'))

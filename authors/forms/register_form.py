@@ -33,15 +33,15 @@ class RegisterForm(forms.ModelForm):
         label='First name'
     )
 
+    last_name = forms.CharField(
+        error_messages={'required': 'Write your last name'},
+        label='Last name'
+    )
+
     email = forms.EmailField(
         error_messages={'required': 'E-mail is required'},
         label='E-mail',
         help_text='The e-mail must be valid'
-    )
-
-    last_name = forms.CharField(
-        error_messages={'required': 'Write your last name'},
-        label='Last name'
     )
 
     password = forms.CharField(

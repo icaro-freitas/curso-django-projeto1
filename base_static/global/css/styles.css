@@ -429,6 +429,14 @@ h6 {
     color: var(--color-debug-dark);
   }
 
+  /* Authors */
+  .login-message {
+    margin: 1rem 0;
+  }
+
+  /* Generics */
+
+
   @media (max-width: 600px) {
     .main-content-list,
     .form-content-grid {

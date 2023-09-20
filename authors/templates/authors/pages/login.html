@@ -9,6 +9,9 @@
     </div>
 
     {% include 'global/partials/messages.html' %}
-    {% include 'global/partials/forms.html' %}
+
+    {% if not user.is_althenticated %}
+        {% include 'global/partials/forms.html' %}
+    {% endif %}
     
 {% endblock content %}

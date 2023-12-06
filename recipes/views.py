@@ -17,7 +17,30 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 6))
 
 
 def theory(request, *args, **kwargs):
-    return render(request, 'recipes/pages/theory.html')
+    recipes = Recipe.objects.all()
+    recipes = recipes.filter(
+        Q(
+            Q(
+                title__icontains='Bolo',
+                id__gt=2,
+                is_published=True,
+            ) | Q(
+                id__gt=90
+            )
+        )
+    )[:10]
+
+    list(recipes)
+
+    context = {
+        'recipes': recipes
+    }
+
+    return render(
+        request,
+        'recipes/pages/theory.html',
+        context=context
+    )
 
 
 class RecipeListViewBase(ListView):

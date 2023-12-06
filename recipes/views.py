@@ -1,7 +1,7 @@
 
 import os
 
-from django.db.models import Q
+from django.db.models import F, Q
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.http.response import Http404
@@ -25,10 +25,13 @@ def theory(request, *args, **kwargs):
                 id__gt=2,
                 is_published=True,
             ) | Q(
-                id__gt=90
+                id__gt=90,
+            ) |
+            Q(
+                id=F('author__id'),
             )
         )
-    )[:10]
+    ).order_by('-id', 'title')[:10]
 
     list(recipes)
 

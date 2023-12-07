@@ -17,7 +17,7 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 6))
 
 
 def theory(request, *args, **kwargs):
-    recipes = Recipe.objects.values('id', 'title', 'author__username')
+    recipes = Recipe.objects.only('id', 'title')
     recipes = recipes.filter(
         Q(
             Q(

@@ -1,7 +1,8 @@
 
 import os
 
-from django.db.models import F, Q
+from django.db.models import Count, F, Q, Value
+from django.db.models.functions import Concat
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.http.response import Http404
@@ -17,7 +18,8 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 6))
 
 
 def theory(request, *args, **kwargs):
-    recipes = Recipe.objects.only('id', 'title')
+    recipes = Recipe.objects.values('id', 'title')
+
     recipes = recipes.filter(
         Q(
             Q(
@@ -31,12 +33,22 @@ def theory(request, *args, **kwargs):
                 id=F('author__id'),
             )
         )
-    ).order_by('-id', 'title')[:10]
+    ).annotate(
+        author_full_name=Concat(
+            F('author__first_name'), Value(' '),
+            F('author__last_name'), Value(' ('),
+            F('author__username'), Value(')'),
+        )
+    ).order_by(
+        '-id', 'title'
+    )[:10]
+    number_of_recipes = recipes.aggregate(number=Count('id'))
 
-    list(recipes)
+    # list(recipes)
 
     context = {
-        'recipes': recipes
+        'recipes': recipes,
+        'number_of_recipes': number_of_recipes['number'],
     }
 
     return render(

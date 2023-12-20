@@ -336,6 +336,10 @@ a {
     margin: var(--spacing-gutter-medium) 0; 
 }
 
+.hidden-text {
+    display: none;
+}
+
 /* Forms */
 .form-content {
     max-width: 64rem;
@@ -477,3 +481,4 @@ a {
         grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
     }
   }
+

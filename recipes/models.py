@@ -45,7 +45,7 @@ class Recipe(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True)
 
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True, default='')
 
     def __str__(self):
         return self.title
@@ -73,5 +73,5 @@ class Recipe(models.Model):
                     'Found recipes with the same title'
                 )
 
-        if (error_messages):
+        if error_messages:
             raise ValidationError(error_messages)

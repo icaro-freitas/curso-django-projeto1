@@ -28,13 +28,13 @@ class RecipeMixin:
         category_data=None,
         author_data=None,
         title='Recipe Title',
-        description='Recipe description',
+        description='Recipe Description',
         slug='recipe-slug',
         preparation_time=10,
         preparation_time_unit='Minutos',
         servings=5,
         servings_unit='Porções',
-        preparation_steps='Recipe Preparation steps',
+        preparation_steps='Recipe Preparation Steps',
         preparation_steps_is_html=False,
         is_published=True,
     ):
@@ -64,8 +64,8 @@ class RecipeMixin:
         for i in range(qtd):
             kwargs = {
                 'title': f'Recipe Title {i}',
-                'author_data': {'username': f'u{i}'},
-                'slug': f'r{i}'
+                'slug': f'r{i}',
+                'author_data': {'username': f'u{i}'}
             }
             recipe = self.make_recipe(**kwargs)
             recipes.append(recipe)

@@ -1,6 +1,6 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
 
+from authors.validators import AuthorRecipeValidator
 from tag.models import Tag
 
 from .models import Recipe
@@ -17,8 +17,11 @@ class RecipeSerializer(serializers.ModelSerializer):
         model = Recipe
         fields = [
             'id', 'title', 'description', 'author',
-                  'category', 'tags', 'public', 'preparation',
-                  'tag_objects', 'tag_links'
+            'category', 'tags', 'public', 'preparation',
+            'tag_objects', 'tag_links',
+            'preparation_time', 'preparation_time_unit', 'servings',
+            'servings_unit',
+            'preparation_steps', 'cover'
         ]
 
     public = serializers.BooleanField(
@@ -33,40 +36,38 @@ class RecipeSerializer(serializers.ModelSerializer):
         read_only=True,
     )
     tag_objects = TagSerializer(
-        many=True,
-        source='tags',
+        many=True, source='tags',
         read_only=True,
     )
     tag_links = serializers.HyperlinkedRelatedField(
         many=True,
         source='tags',
+        view_name='recipes:recipes_api_v2_tag',
         read_only=True,
-        view_name='recipes:recipes_api_v2_tag'
     )
 
     def any_method_name(self, recipe):
         return f'{recipe.preparation_time} {recipe.preparation_time_unit}'
 
     def validate(self, attrs):
+        if self.instance is not None and attrs.get('servings') is None:
+            attrs['servings'] = self.instance.servings
+
+        if self.instance is not None and attrs.get('preparation_time') is None:
+            attrs['preparation_time'] = self.instance.preparation_time
+
         super_validate = super().validate(attrs)
-
-        title = attrs.get('title')
-        description = attrs.get('description')
-
-        if title == description:
-            raise serializers.ValidationError(
-                {
-                    "title": ["Posso", "ter", "mais de um erro"],
-                    "description": ["Posso", "ter", "mais de um erro"],
-                }
-            )
-
+        AuthorRecipeValidator(
+            data=attrs,
+            ErrorClass=serializers.ValidationError,
+        )
         return super_validate
 
-    def validate_title(self, value):
-        title = value
+    def save(self, **kwargs):
+        return super().save(**kwargs)
 
-        if len(title) < 5:
-            raise serializers.ValidationError('Must have at least 5 chars.')
+    def create(self, validated_data):
+        return super().create(validated_data)
 
-        return title
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)

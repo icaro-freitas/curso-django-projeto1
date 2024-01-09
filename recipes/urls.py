@@ -17,6 +17,7 @@ recipe_api_v2_router.register(
     basename='recipes-api'
 )
 
+
 urlpatterns = [
     path('',
          views.RecipeListViewHome.as_view(),
